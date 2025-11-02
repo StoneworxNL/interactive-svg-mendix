@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+    id="stoneworx.interactivesvg.InteractiveSVG"
+    pluginWidget="true"
+    needsEntityContext="true"
+    offlineCapable="true"
+    supportedPlatform="Web"
+    xmlns="http://www.mendix.com/widget/1.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+    <name>Interactive SVG</name>
+    <description>
+        Widget to show svg(s) in a Mendix Application. User(s) can interact with this svg and trigger Mendix actions.
+    </description>
+    <icon />
+    <properties>
+        <propertyGroup caption="General">
+            <property key="prefix" type="string">
+                <caption>ID Prefix</caption>
+                <description>Prefix to search for IDs.</description>
+            </property>
+            <property key="svg" type="image" required="false">
+                <caption>SVG Image</caption>
+                <description />
+            </property>
+            <property key="actions" type="object" isList="true">
+                <caption>Actions</caption>
+                <description>To interact with the SVG.</description>
+                <properties>
+                    <propertyGroup caption="Actions">
+                        <property key="propertyname" type="string">
+                            <caption>ID</caption>
+                            <description />
+                        </property>
+                        <property key="propertyvalue" type="action">
+                            <caption>Action</caption>
+                            <description />
+                        </property>
+                    </propertyGroup>
+                </properties>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>

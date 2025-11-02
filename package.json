@@ -1,0 +1,46 @@
+{
+  "name": "interactivesvg",
+  "widgetName": "InteractiveSVG",
+  "version": "1.0.0",
+  "description": "Widget to show svg(s) in a Mendix Application. User(s) can interact with this svg and trigger Mendix actions.",
+  "copyright": "JL 2025",
+  "author": "JL",
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT",
+  "config": {
+    "projectPath": "../../",
+    "mendixHost": "http://localhost:8080",
+    "developmentPort": 3000
+  },
+  "packagePath": "stoneworx",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:server",
+    "dev": "pluggable-widgets-tools start:web",
+    "build": "pluggable-widgets-tools build:web",
+    "lint": "pluggable-widgets-tools lint",
+    "lint:fix": "pluggable-widgets-tools lint:fix",
+    "prerelease": "npm run lint",
+    "release": "pluggable-widgets-tools release:web"
+  },
+  "devDependencies": {
+    "@mendix/pluggable-widgets-tools": "^10.15.0",
+    "@types/big.js": "^6.0.2",
+    "@types/react-svg": "^3.0.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "react-svg": "^16.3.0"
+  },
+  "resolutions": {
+    "react": "^18.2.0",
+    "@types/react": "^18.2.0",
+    "react-native": "0.72.7"
+  },
+  "overrides": {
+    "react": "^18.2.0",
+    "@types/react": "^18.2.0",
+    "react-native": "0.72.7"
+  }
+}
