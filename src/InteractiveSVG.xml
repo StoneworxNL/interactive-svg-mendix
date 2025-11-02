@@ -16,13 +16,13 @@
     <icon />
     <properties>
         <propertyGroup caption="General">
-            <property key="prefix" type="string">
-                <caption>ID Prefix</caption>
-                <description>Prefix to search for IDs.</description>
-            </property>
             <property key="svg" type="image" required="false">
                 <caption>SVG Image</caption>
                 <description />
+            </property>
+            <property key="prefix" type="string">
+                <caption>ID Prefix</caption>
+                <description>Prefix to search for IDs.</description>
             </property>
             <property key="actions" type="object" isList="true">
                 <caption>Actions</caption>
