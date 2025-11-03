@@ -15,6 +15,16 @@ opening a link, or calling a microflow/nanoflow.
     prefix (in this example: "mx-svg-").
 4.  You can also (optionally) add a CSS class to those clickable elements in case you want to add some hover styling
     later on.
+
+```css
+.mx-clickable {
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+```
+
 5.  Save the SVG image.
 6.  Drag and drop the Interactive SVG widget into a web page on your application and fill in all of the required fields.
 
