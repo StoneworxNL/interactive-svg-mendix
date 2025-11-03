@@ -35,7 +35,7 @@ opening a link, or calling a microflow/nanoflow.
        page...
 
 <img alt="Editing SVG Image" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/editsvg.png" width="600px"/>
-<img alt="Studio Pro (Actions) Configuration" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig2.png" width="450px"/>
+<img alt="Studio Pro (Actions) Configuration" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig2.png" width="600px"/>
 
 ## Demo project
 
