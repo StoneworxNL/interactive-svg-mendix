@@ -13,7 +13,7 @@ Interactive / Clickable SVG Mendix Pluggable Widget that allows any SVG to trigg
 3.  You need to add metadata to those elements, namely a unique ID for each element. All IDs should start with the same
     prefix (in this example: "mx-svg-").
 
-<img alt="Editing SVG Image" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/.png" width="400px"/>
+<img alt="Editing SVG Image" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/editsvg.png" width="400px"/>
 
 4.  You can also (optionally) add a CSS class to those clickable elements in case you want to add some hover styling
     later on.
