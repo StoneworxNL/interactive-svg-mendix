@@ -20,13 +20,13 @@ Interactive / Clickable SVG Mendix Pluggable Widget that allows any SVG to trigg
 5.  Save the SVG image.
 6.  Drag and drop the Interactive SVG widget into a web page on your application and fill in all of the required fields.
 
-<img alt="Studio Pro (Actions) Configuration" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig2.png" width="450px"/>
-
     1. Set the previously saved image as the "SVG image".
     2. Set your previously defined ID prefix (eg. "mx-svg-") in the "ID Prefix".
     3. Add as many actions as you want. In the ID, set the exact ID of the SVG element you want the action to be
        triggered from (eg. "mx-svg-flashsales"). And the action itself may be a microflow/nanoflow call, opening a
        page...
+
+<img alt="Studio Pro (Actions) Configuration" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig2.png" width="450px"/>
 
 ## Demo project
 
