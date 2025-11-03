@@ -1,6 +1,7 @@
 # Interactive / Clickable SVG Mendix Pluggable Widget
 
-Interactive / Clickable SVG Mendix Pluggable Widget that allows any SVG to trigger Mendix Actions.
+Interactive / Clickable SVG Mendix Pluggable Widget that allows any SVG to trigger Mendix Actions like opening a page,
+opening a link, or calling a microflow/nanoflow.
 
 <img alt="Mendix Pluggable Widget Interactive SVG Logo" src="https://github.com/joaodelopes/interactive-svg-mendix/blob/main/src/InteractiveSVG.icon.png" width="65px"/>
 
