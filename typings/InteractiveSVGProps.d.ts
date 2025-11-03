@@ -21,8 +21,8 @@ export interface InteractiveSVGContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    prefix: string;
     svg?: DynamicValue<WebImage>;
+    prefix: string;
     actions: ActionsType[];
 }
 
@@ -37,7 +37,7 @@ export interface InteractiveSVGPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    prefix: string;
     svg: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    prefix: string;
     actions: ActionsPreviewType[];
 }

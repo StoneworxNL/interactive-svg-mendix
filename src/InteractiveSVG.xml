@@ -22,15 +22,15 @@
             </property>
             <property key="prefix" type="string">
                 <caption>ID Prefix</caption>
-                <description>Prefix to search for IDs.</description>
+                <description>Prefix to search for clickable SVG elements.</description>
             </property>
             <property key="actions" type="object" isList="true">
                 <caption>Actions</caption>
-                <description>To interact with the SVG.</description>
+                <description>To be triggered by the SVG.</description>
                 <properties>
                     <propertyGroup caption="Actions">
                         <property key="propertyname" type="string">
-                            <caption>ID</caption>
+                            <caption>ID of clickable SVG element</caption>
                             <description />
                         </property>
                         <property key="propertyvalue" type="action">

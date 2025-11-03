@@ -1,51 +1,5 @@
-// import { DynamicValue, WebImage } from "mendix";
-// import { ReactElement, createElement } from "react";
-// import { ActionsType } from "typings/InteractiveSVGProps";
-// import { ReactSVG } from "react-svg";
-
-// export interface HelloWorldSampleProps {
-//     svg?: DynamicValue<WebImage>;
-//     actions: ActionsType[];
-// }
-
-// export function HelloWorldSample({ svg, actions }: HelloWorldSampleProps): ReactElement {
-//     if (!svg?.value?.uri) {
-//         return <div>No valid SVG image provided</div>;
-//     }
-
-//     // Create a map of action callbacks
-//     const actionCallbacks: Record<string, () => void> = {};
-
-//     actions.forEach(({ propertyname, propertyvalue }) => {
-//         if (propertyvalue && propertyvalue.canExecute) {
-//             actionCallbacks[propertyname] = () => propertyvalue.execute();
-//         }
-//     });
-
-//     return (
-//         <ReactSVG
-//             src={svg.value.uri}
-//             afterInjection={svgElement => {
-//                 // Attach click handlers to elements with IDs starting with "mx-svg-"
-//                 Object.keys(actionCallbacks).forEach(id => {
-//                     if (id.startsWith("mx-svg-")) {
-//                         const element = svgElement.getElementById(id);
-//                         if (element) {
-//                             element.addEventListener("click", actionCallbacks[id]);
-//                             (element as HTMLElement).style.cursor = "pointer";
-//                         }
-//                     }
-//                 });
-//             }}
-//             onError={error => {
-//                 console.error("SVG injection error:", error);
-//             }}
-//         />
-//     );
-// }
-
 import { DynamicValue, WebImage } from "mendix";
-import { ReactElement, createElement } from "react";
+import { ReactElement, createElement, useEffect, useState } from "react";
 import { ActionsType } from "typings/InteractiveSVGProps";
 import { ReactSVG } from "react-svg";
 
@@ -56,9 +10,15 @@ export interface HelloWorldSampleProps {
 }
 
 export function HelloWorldSample({ svg, actions, prefix }: HelloWorldSampleProps): ReactElement {
-    if (!svg?.value?.uri) {
-        return <div>No valid SVG image provided</div>;
-    }
+    const [svgState, setSvgState] = useState<DynamicValue<WebImage> | null>(null);
+
+    useEffect(() => {
+        if (svg) {
+            setSvgState(svg);
+        } else {
+            setSvgState(null);
+        }
+    }, [svg]);
 
     const actionCallbacks = actions.reduce<Record<string, () => void>>((acc, { propertyname, propertyvalue }) => {
         if (propertyvalue?.canExecute) {
@@ -67,23 +27,28 @@ export function HelloWorldSample({ svg, actions, prefix }: HelloWorldSampleProps
         return acc;
     }, {});
 
-    return (
-        <ReactSVG
-            src={svg.value.uri}
-            afterInjection={(svgElement: SVGElement | null) => {
-                if (svgElement) {
-                    const elements = svgElement.querySelectorAll(`[id^="${prefix}"]`);
-                    elements.forEach(el => {
-                        const callback = actionCallbacks[el.id];
-                        if (callback) {
-                            el.addEventListener("click", callback);
-                        }
-                    });
-                }
-            }}
-            onError={error => {
-                console.error("SVG injection error:", error);
-            }}
-        />
-    );
+    if (!svgState || svgState.status !== "available") {
+        return <div>Loading...</div>;
+    } else {
+        return (
+            <ReactSVG
+                src={svgState.value.uri}
+                afterInjection={(svgElement: SVGElement | null) => {
+                    if (svgElement) {
+                        const elements = svgElement.querySelectorAll(`[id^="${prefix}"]`);
+                        elements.forEach(el => {
+                            const callback = actionCallbacks[el.id];
+                            if (callback) {
+                                el.addEventListener("click", callback);
+                                (el as HTMLElement).style.cursor = "pointer";
+                            }
+                        });
+                    }
+                }}
+                onError={error => {
+                    console.error("SVG injection error:", error);
+                }}
+            />
+        );
+    }
 }
