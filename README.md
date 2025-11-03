@@ -10,24 +10,18 @@ Interactive / Clickable SVG Mendix Pluggable Widget that allows any SVG to trigg
 2. Select (and optionally group) the SVG elements you want to add Mendix actions to.
 3. You need to add metadata to those elements, namely a unique ID for each element. All IDs should start with the same
    prefix (in this example: "mx-svg-").
-   ![Editing Your SVG Image](https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/edit.svg)
-4. You can also optionally add a class to those clickable elements in case you want to add some hover styling later on,
-   for example.
-5.
-
-<!-- ![Configuration in Studio Pro](https://github.com/StoneworxNL/worldmap-mendix/blob/main/images/config.png) -->
-
-## On Click
-
-<!-- If you want to handle clicks on the map, make sure you create an "onClick" action and set it in the Widget's General
-settings. To know which country was clicked:
-
-1. Wrap the World Map widget inside a dataview.
-2. Add the "Clicked Country" attribute to know the ISO Code of the clicked country.
-3. Add the object in context as an input of the action created in 1.
-
-<img alt="OnClick Configurations" src="https://github.com/StoneworxNL/worldmap-mendix/blob/main/images/demoAction.png" width="550px"/>
-<img alt="Microflow Example" src="https://github.com/StoneworxNL/worldmap-mendix/blob/main/images/microflow.png" width="550px"/> -->
+   ![Editing Your SVG Image](https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/edit.png)
+4. You can also optionally add a CSS class to those clickable elements in case you want to add some hover styling later
+   on.
+5. Save the SVG image.
+6. Drag and drop the Interactive SVG widget into a web page on your application and fill in all of the required fields.
+    1. Set the previously saved image as the "SVG image".
+    2. Set your previously defined ID prefix (eg. "mx-svg-") in the "ID Prefix".
+       ![Studio Pro Configuration](https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig1.png)
+    3. Add as many actions as you want. In the ID, set the exact ID of the SVG element you want the action to be
+       triggered from (eg. "mx-svg-flashsales"). And the action itself may be a microflow/nanoflow call, opening a
+       page...
+       ![Studio Pro (Actions) Configuration](https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig2.png)
 
 ## Demo project
 
