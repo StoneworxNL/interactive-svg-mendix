@@ -3,13 +3,13 @@ import { ReactElement, createElement, useEffect, useState } from "react";
 import { ActionsType } from "typings/InteractiveSVGProps";
 import { ReactSVG } from "react-svg";
 
-export interface HelloWorldSampleProps {
+export interface InteractiveSVGComponentProps {
     svg?: DynamicValue<WebImage>;
     actions: ActionsType[];
     prefix: string;
 }
 
-export function HelloWorldSample({ svg, actions, prefix }: HelloWorldSampleProps): ReactElement {
+export function InteractiveSVGComponent({ svg, actions, prefix }: InteractiveSVGComponentProps): ReactElement {
     const [svgState, setSvgState] = useState<DynamicValue<WebImage> | null>(null);
 
     useEffect(() => {
