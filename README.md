@@ -13,18 +13,18 @@ Interactive / Clickable SVG Mendix Pluggable Widget that allows any SVG to trigg
 
     ![Editing Your SVG Image](https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/editsvg.png)
 
-4.  You can also optionally add a CSS class to those clickable elements in case you want to add some hover styling later
-    on.
+4.  You can also (optionally) add a CSS class to those clickable elements in case you want to add some hover styling
+    later on.
 5.  Save the SVG image.
 6.  Drag and drop the Interactive SVG widget into a web page on your application and fill in all of the required fields.
 
     ![Studio Pro Configuration](https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig1.png)
 
-        1. Set the previously saved image as the "SVG image".
-        2. Set your previously defined ID prefix (eg. "mx-svg-") in the "ID Prefix".
-        3. Add as many actions as you want. In the ID, set the exact ID of the SVG element you want the action to be
-           triggered from (eg. "mx-svg-flashsales"). And the action itself may be a microflow/nanoflow call, opening a
-           page...
+    1. Set the previously saved image as the "SVG image".
+    2. Set your previously defined ID prefix (eg. "mx-svg-") in the "ID Prefix".
+    3. Add as many actions as you want. In the ID, set the exact ID of the SVG element you want the action to be
+       triggered from (eg. "mx-svg-flashsales"). And the action itself may be a microflow/nanoflow call, opening a
+       page...
 
     ![Studio Pro (Actions) Configuration](https://github.com/joaodelopes/interactive-svg-mendix/blob/main/images/mendixconfig2.png)
 
