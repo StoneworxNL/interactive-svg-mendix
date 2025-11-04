@@ -33,7 +33,7 @@ export function InteractiveSVGComponent({ svg, actions, prefix }: InteractiveSVG
         return (
             <ReactSVG
                 src={svgState.value.uri}
-                afterInjection={(svgElement: SVGElement | null) => {
+                beforeInjection={(svgElement: SVGElement | null) => {
                     if (svgElement) {
                         const elements = svgElement.querySelectorAll(`[id^="${prefix}"]`);
                         elements.forEach(el => {
