@@ -9,7 +9,7 @@ opening a link, or calling a microflow/nanoflow.
 
 ## Why Do I Need This?
 
-The use-case would be: your client or partner provides you with a complex image / diagram / etc... and says: I want this as the homepage banner and I want different parts of this image to trigger different actions. Part A needs to forward the user to url "xyz", Part B needs to open a modal do create object "abc", Part C needs triggers the microflow "asd", Part D opens the Workflow Management Page. And so on... 
+The use-case would be: your client or partner provides you with a complex image / diagram / etc... and says: "I want this as the homepage banner and I want different parts of this image to trigger different actions. Part A needs to forward the user to url "xyz", Part B needs to open a modal do create object "abc", Part C needs triggers the microflow "asd", Part D opens the Workflow Management Page." And so on... 
 In summary, you have a complex image with different elements. Each element may trigger actions. 
 This widget allows for you to be in full control of those inner elements and the actions they may trigger.
 
@@ -38,7 +38,7 @@ Drag and drop the Interactive SVG widget into a web page on your application and
 
 <img alt="Studio Pro (Actions) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/mendixconfig2.png" width="550px"/>
 
-## What if I want to style those SVG elements (eg: on-hover behaviours)?
+### What if I want to style those SVG elements (eg: on-hover behaviours)?
 
 Using the chosen SVG editor, you can (optionally) add a CSS class to those elements in case you want to add some hover styling later on. Then, in mendix, you define the class(es). Example shown below:
 
