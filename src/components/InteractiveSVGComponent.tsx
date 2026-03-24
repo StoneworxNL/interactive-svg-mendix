@@ -6,10 +6,9 @@ import { ReactSVG } from "react-svg";
 export interface InteractiveSVGComponentProps {
     svg?: DynamicValue<WebImage>;
     actions: ActionsType[];
-    prefix: string;
 }
 
-export function InteractiveSVGComponent({ svg, actions, prefix }: InteractiveSVGComponentProps): ReactElement {
+export function InteractiveSVGComponent({ svg, actions }: InteractiveSVGComponentProps): ReactElement {
     const [svgState, setSvgState] = useState<DynamicValue<WebImage> | null>(null);
 
     useEffect(() => {
@@ -20,13 +19,6 @@ export function InteractiveSVGComponent({ svg, actions, prefix }: InteractiveSVG
         }
     }, [svg]);
 
-    const actionCallbacks = actions.reduce<Record<string, () => void>>((acc, { propertyname, propertyvalue }) => {
-        if (propertyvalue?.canExecute) {
-            acc[propertyname] = () => propertyvalue.execute();
-        }
-        return acc;
-    }, {});
-
     if (!svgState || svgState.status !== "available") {
         return <div>Loading...</div>;
     } else {
@@ -35,12 +27,19 @@ export function InteractiveSVGComponent({ svg, actions, prefix }: InteractiveSVG
                 src={svgState.value.uri}
                 beforeInjection={(svgElement: SVGElement | null) => {
                     if (svgElement) {
-                        const elements = svgElement.querySelectorAll(`[id^="${prefix}"]`);
-                        elements.forEach(el => {
-                            const callback = actionCallbacks[el.id];
-                            if (callback) {
-                                el.addEventListener("click", callback);
-                                (el as HTMLElement).style.cursor = "pointer";
+                        actions.forEach(action => {
+                            if (action.propertyvalue?.canExecute) {
+                                const selector =
+                                    action.propertyidentifier === "class__"
+                                        ? `.${action.propertyname}`
+                                        : `#${action.propertyname}`;
+                                const elements = svgElement.querySelectorAll(selector);
+                                elements.forEach(el => {
+                                    el.addEventListener(action.propertytype, () => {
+                                        action.propertyvalue?.execute();
+                                    });
+                                    (el as HTMLElement).style.cursor = "pointer";
+                                });
                             }
                         });
                     }

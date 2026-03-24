@@ -6,13 +6,21 @@
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, WebImage } from "mendix";
 
+export type PropertyidentifierEnum = "id__" | "class__";
+
+export type PropertytypeEnum = "click" | "dblclick" | "mouseenter";
+
 export interface ActionsType {
+    propertyidentifier: PropertyidentifierEnum;
     propertyname: string;
+    propertytype: PropertytypeEnum;
     propertyvalue?: ActionValue;
 }
 
 export interface ActionsPreviewType {
+    propertyidentifier: PropertyidentifierEnum;
     propertyname: string;
+    propertytype: PropertytypeEnum;
     propertyvalue: {} | null;
 }
 
@@ -22,7 +30,6 @@ export interface InteractiveSVGContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     svg?: DynamicValue<WebImage>;
-    prefix: string;
     actions: ActionsType[];
 }
 
@@ -38,6 +45,5 @@ export interface InteractiveSVGPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     svg: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
-    prefix: string;
     actions: ActionsPreviewType[];
 }

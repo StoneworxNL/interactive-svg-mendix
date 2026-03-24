@@ -1,7 +1,7 @@
 {
   "name": "interactivesvg",
   "widgetName": "InteractiveSVG",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Widget to show svg(s) in a Mendix Application. User(s) can interact with this svg and trigger Mendix actions.",
   "copyright": "JL 2025",
   "author": "JL",

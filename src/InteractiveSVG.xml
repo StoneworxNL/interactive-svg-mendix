@@ -20,18 +20,32 @@
                 <caption>SVG Image</caption>
                 <description />
             </property>
-            <property key="prefix" type="string">
-                <caption>ID Prefix</caption>
-                <description>Prefix to search for clickable SVG elements.</description>
-            </property>
-            <property key="actions" type="object" isList="true">
+
+            <property key="actions" type="object" isList="true" required="false">
                 <caption>Actions</caption>
                 <description>To be triggered by the SVG.</description>
                 <properties>
                     <propertyGroup caption="Actions">
-                        <property key="propertyname" type="string">
-                            <caption>ID of clickable SVG element</caption>
+                        <property key="propertyidentifier" type="enumeration" defaultValue="id__">
+                            <caption>Property to identify SVG element.</caption>
                             <description />
+                            <enumerationValues>
+                                <enumerationValue key="id__">ID</enumerationValue>
+                                <enumerationValue key="class__">Class Name</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="propertyname" type="string">
+                            <caption>Class Name or ID of SVG element.</caption>
+                            <description />
+                        </property>
+                        <property key="propertytype" type="enumeration" defaultValue="click">
+                            <caption>Interact on click, double-click or hover.</caption>
+                            <description />
+                            <enumerationValues>
+                                <enumerationValue key="click">Click</enumerationValue>
+                                <enumerationValue key="dblclick">Double-click</enumerationValue>
+                                <enumerationValue key="mouseenter">Hover</enumerationValue>
+                            </enumerationValues>
                         </property>
                         <property key="propertyvalue" type="action">
                             <caption>Action</caption>
