@@ -1,0 +1,116 @@
+<svg
+    id="heroArtwork"
+    class="hero-svg"
+    width="100%"
+    height="100%"
+    viewBox="0 0 1200 700"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <style>
+        /* --- Floating Animation --- */
+    .float {
+      animation: floatAnim 6s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes floatAnim {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* --- Hover Effects --- */
+    .hoverable {
+      transition: transform 0.4s ease, filter 0.4s ease;
+      cursor: pointer;
+    }
+    .hoverable:hover {
+      transform: scale(1.15);
+      filter: drop-shadow(0px 0px 12px rgba(255,255,255,0.9));
+    }
+    </style>
+
+    <!-- Background Gradient -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4f46e5" />
+            <stop offset="100%" stop-color="#7c3aed" />
+        </linearGradient>
+
+        <radialGradient id="blobGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.9)" />
+            <stop offset="100%" stop-color="rgba(255,255,255,0.1)" />
+        </radialGradient>
+    </defs>
+
+    <rect id="backgroundRect" width="1200" height="700" fill="url(#bgGradient)" />
+
+    <!-- Abstract Blob -->
+    <g id="blobGroup" class="float hoverable">
+        <path
+            id="mainBlob"
+            class="blob"
+            d="M 450 200 
+         Q 700 50 900 250 
+         T 850 500 
+         Q 600 650 400 550 
+         T 350 300 Z"
+            fill="url(#blobGradient)"
+            opacity="0.8"
+        />
+    </g>
+
+    <!-- Floating Circles -->
+    <g id="floatingCircles">
+        <circle
+            id="circle1"
+            class="float hoverable"
+            cx="250"
+            cy="180"
+            r="60"
+            fill="#ffffff22"
+            stroke="#ffffff55"
+            stroke-width="2"
+        />
+        <circle
+            id="circle2"
+            class="float hoverable"
+            cx="1050"
+            cy="420"
+            r="80"
+            fill="#ffffff22"
+            stroke="#ffffff55"
+            stroke-width="2"
+            style="animation-delay: 1s;"
+        />
+        <circle
+            id="circle3"
+            class="float hoverable"
+            cx="900"
+            cy="120"
+            r="40"
+            fill="#ffffff22"
+            stroke="#ffffff55"
+            stroke-width="2"
+            style="animation-delay: 2s;"
+        />
+    </g>
+
+    <!-- Pattern Lines -->
+    <g id="patternLines" stroke="#ffffff33" stroke-width="2">
+        <line id="line1" class="pattern-line hoverable" x1="100" y1="650" x2="1100" y2="100" />
+        <line id="line2" class="pattern-line hoverable" x1="200" y1="600" x2="1150" y2="150" />
+        <line id="line3" class="pattern-line hoverable" x1="300" y1="550" x2="1050" y2="50" />
+    </g>
+
+    <!-- Triangles -->
+    <g id="triangles" fill="#ffffff44">
+        <polygon id="triangle1" class="triangle float hoverable" points="200,200 240,270 160,270" />
+        <polygon
+            id="triangle2"
+            class="triangle float hoverable"
+            points="1000,500 1050,580 950,580"
+            style="animation-delay: 1.5s;"
+        />
+    </g>
+</svg>

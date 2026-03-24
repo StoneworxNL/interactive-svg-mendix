@@ -25,13 +25,13 @@
     "release": "pluggable-widgets-tools release:web"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^10.15.0",
-    "@types/big.js": "^6.0.2",
-    "@types/react-svg": "^3.0.0"
+    "@mendix/pluggable-widgets-tools": "^11.8.1",
+    "@types/big.js": "^6.2.2",
+    "@types/react-svg": "^5.0.0"
   },
   "dependencies": {
-    "classnames": "^2.2.6",
-    "react-svg": "^16.3.0"
+    "classnames": "^2.5.1",
+    "react-svg": "^17.2.4"
   },
   "resolutions": {
     "react": "^18.2.0",
