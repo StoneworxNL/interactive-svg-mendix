@@ -34,13 +34,17 @@
     "react-svg": "^17.2.4"
   },
   "resolutions": {
-    "react": "^18.2.0",
-    "@types/react": "^18.2.0",
-    "react-native": "0.72.7"
+    "react": "19.0.0",
+    "@types/react": "19.0.0",
+    "react-native": "0.78.2",
+    "react-dom": "19.0.0",
+    "@types/react-dom": "19.0.0"
   },
   "overrides": {
-    "react": "^18.2.0",
-    "@types/react": "^18.2.0",
-    "react-native": "0.72.7"
+    "react": "19.0.0",
+    "@types/react": "19.0.0",
+    "react-native": "0.78.2",
+    "react-dom": "19.0.0",
+    "@types/react-dom": "19.0.0"
   }
 }

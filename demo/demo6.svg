@@ -1,0 +1,153 @@
+<svg
+    id="heroArtwork"
+    class="hero-svg"
+    width="100%"
+    height="100%"
+    viewBox="0 0 1200 700"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <style>
+        /* Floating animation */
+    .float {
+      animation: floatAnim 6s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @keyframes floatAnim {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-22px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Hover effects */
+    .hoverable {
+      transition: transform 0.4s ease,
+                  filter 0.4s ease,
+                  stroke 0.4s ease,
+                  fill 0.4s ease;
+      cursor: pointer;
+      filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.5));
+    }
+
+    .hoverable:hover {
+      transform: scale(1.2);
+      filter:
+        drop-shadow(0 0 14px rgba(255,255,255,1))
+        drop-shadow(0 0 20px rgba(255,0,200,1));
+      stroke: #00eaff;
+      fill: url(#hoverGradient);
+    }
+    </style>
+
+    <defs>
+        <!-- Background gradient -->
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3a2bd9" />
+            <stop offset="50%" stop-color="#7a3beb" />
+            <stop offset="100%" stop-color="#a855f7" />
+        </linearGradient>
+
+        <!-- Blob gradient -->
+        <radialGradient id="blobGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.9)" />
+            <stop offset="100%" stop-color="rgba(255,255,255,0.15)" />
+        </radialGradient>
+
+        <!-- Neon hover gradient -->
+        <linearGradient id="hoverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff00c8" />
+            <stop offset="50%" stop-color="#00eaff" />
+            <stop offset="100%" stop-color="#00ff90" />
+        </linearGradient>
+
+        <!-- Orbital stroke gradients -->
+        <linearGradient id="orbitStroke1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff00ff" />
+            <stop offset="100%" stop-color="#00eaff" />
+        </linearGradient>
+
+        <linearGradient id="orbitStroke2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff9d00" />
+            <stop offset="100%" stop-color="#ff00fb" />
+        </linearGradient>
+    </defs>
+
+    <!-- BACKGROUND -->
+    <rect id="backgroundRect" width="1200" height="700" fill="url(#bgGradient)" />
+
+    <!-- ABSTRACT BLOB -->
+    <g id="blobGroup" class="float hoverable">
+        <path
+            id="mainBlob"
+            class="blob"
+            d="M 450 200 
+         Q 700 50 900 250 
+         T 850 500 
+         Q 600 650 400 550 
+         T 350 300 Z"
+            fill="url(#blobGradient)"
+            opacity="0.9"
+        />
+    </g>
+
+    <!-- COMPLEX ORBITS -->
+    <g id="complexOrbits">
+        <!-- ORBIT 1 -->
+        <g id="orbit1" class="float hoverable" transform="translate(250,180)">
+            <circle r="60" fill="#ffffff15" stroke="url(#orbitStroke1)" stroke-width="3" />
+            <ellipse rx="80" ry="30" fill="none" stroke="url(#orbitStroke2)" stroke-width="2" transform="rotate(15)" />
+            <ellipse rx="40" ry="80" fill="none" stroke="#ffffff55" stroke-width="2" transform="rotate(-25)" />
+            <circle r="14" fill="#ff00ff" />
+        </g>
+
+        <!-- ORBIT 2 -->
+        <g id="orbit2" class="float hoverable" transform="translate(1050,420)" style="animation-delay:1s;">
+            <circle r="80" fill="#ffffff10" stroke="url(#orbitStroke1)" stroke-width="3" />
+            <ellipse
+                rx="110"
+                ry="45"
+                fill="none"
+                stroke="url(#orbitStroke2)"
+                stroke-width="2"
+                transform="rotate(-10)"
+            />
+            <ellipse rx="50" ry="100" fill="none" stroke="#ffffff55" stroke-width="2" transform="rotate(35)" />
+            <circle r="20" fill="#00eaff" />
+        </g>
+
+        <!-- ORBIT 3 -->
+        <g id="orbit3" class="float hoverable" transform="translate(900,120)" style="animation-delay:2s;">
+            <circle r="40" fill="#ffffff10" stroke="url(#orbitStroke1)" stroke-width="3" />
+            <ellipse rx="55" ry="20" fill="none" stroke="url(#orbitStroke2)" stroke-width="2" transform="rotate(30)" />
+            <ellipse rx="25" ry="55" fill="none" stroke="#ffffff55" stroke-width="2" transform="rotate(-15)" />
+            <circle r="10" fill="#ff00ff" />
+        </g>
+    </g>
+
+    <!-- LINES -->
+    <g id="patternLines" stroke="url(#orbitStroke1)" stroke-width="2">
+        <line id="line1" class="pattern-line hoverable" x1="100" y1="650" x2="1100" y2="100" />
+        <line id="line2" class="pattern-line hoverable" x1="200" y1="600" x2="1150" y2="150" />
+        <line id="line3" class="pattern-line hoverable" x1="300" y1="550" x2="1050" y2="50" />
+    </g>
+
+    <!-- LOW-POLY SHARDS -->
+    <g id="shards" fill="url(#orbitStroke2)">
+        <!-- SHARD 1 -->
+        <polygon
+            id="shard1"
+            class="shard float hoverable"
+            points="200,200 240,230 260,280 210,300 160,270 180,230"
+            opacity="0.8"
+            style="animation-delay:.4s;"
+        />
+
+        <!-- SHARD 2 -->
+        <polygon
+            id="shard2"
+            class="shard float hoverable"
+            points="1000,500 1050,540 1040,590 980,610 940,580 960,530"
+            opacity="0.8"
+            style="animation-delay:1.5s;"
+        />
+    </g>
+</svg>

@@ -1,4 +1,4 @@
-import { ReactElement, createElement } from "react";
+import { ReactElement } from "react";
 import { InteractiveSVGComponent } from "./components/InteractiveSVGComponent";
 
 import { InteractiveSVGContainerProps } from "../typings/InteractiveSVGProps";

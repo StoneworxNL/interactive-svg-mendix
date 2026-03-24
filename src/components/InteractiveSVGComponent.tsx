@@ -1,5 +1,5 @@
 import { DynamicValue, WebImage } from "mendix";
-import { ReactElement, createElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { ActionsType } from "typings/InteractiveSVGProps";
 import { ReactSVG } from "react-svg";
 
