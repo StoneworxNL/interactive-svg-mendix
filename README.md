@@ -48,9 +48,9 @@ Embed the Interactive SVG widget into your page and configure its properties:
 
 This is it!
 
-<img alt="Studio Pro (Page) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopromain.png" width="550px"/>
-<img alt="Studio Pro (Main) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro1.png" width="550px"/>
-<img alt="Studio Pro (Actions) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro2.png" width="550px"/>
+<img alt="Studio Pro (Page) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopromain.png" width="600px"/>
+<img alt="Studio Pro (Main) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro1.png" width="400px"/>
+<img alt="Studio Pro (Actions) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro2.png" width="400px"/>
 
 ### What if I want to style those SVG elements (eg: on-hover behaviours)?
 
@@ -58,11 +58,8 @@ Using the chosen SVG editor, you can (optionally) add a CSS class to those eleme
 styling later on. Then, in mendix, you define the class(es). Example shown below:
 
 ```css
-.mx-clickable {
-    cursor: pointer;
-    &:hover {
-        opacity: 0.7;
-    }
+.mx-clickable:hover {
+   opacity: 0.7;
 }
 ```
 
