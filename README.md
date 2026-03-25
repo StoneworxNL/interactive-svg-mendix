@@ -24,25 +24,28 @@ This widget allows for you to be in full control of those inner elements and the
 
 ### Prepare Your SVG Image
 
+As a pre-requisite, you need an svg to embed in your page. To interact with certain elements of this svg you must make
+sure they are identifiable through a class name or ID.
+
 1.  Open your SVG image in an SVG-editor of your choice (an offline editor is, for example, Inkscape, and an online-one
     could be, for example, Boxy-svg)
 2.  Select (and optionally group) the SVG elements you want to add Mendix actions to.
-3.  You need to add metadata to those elements, namely a unique ID for each element. All IDs should start with the same
-    prefix (in this example: "mx-svg-").
-4.  Save the SVG image and have it available in your Mendix application, either as a static image or dynamic.
+3.  You need to add metadata to those elements (class name or id).
 
 <img alt="Group SVG Elements" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/group.png" width="550px"/>
 <img alt="Editing SVG Image" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/editsvg.png" width="550px"/>
 
 ### Embed It In Mendix
 
-Drag and drop the Interactive SVG widget into a web page on your application and fill in all of the required fields.
-Then:
+Embed the Interactive SVG widget into your page and configure its properties:
 
-1. Set the previously saved image as the "SVG image".
-2. Set your previously defined ID prefix (eg. "mx-svg-") in the "ID Prefix".
-3. Add as many actions as you want. In the ID, set the exact ID of the SVG element you want the action to be triggered
-   from (eg. "mx-svg-flashsales"). And the action itself may be a microflow/nanoflow call, opening a page...
+1. SVG Image (add your image);
+2. Add Actions. These are configurable interactions that consist of: 2.1. Property to identify SVG element (ID or
+   Class); 2.2. The actual Class Name or ID depending on the previous answer; 2.3. Interaction type. This is the type of
+   event. It can be either click, double-click, hover, mouse-leave, mouse up. 2.4. The actual Mendix action (eg. Open
+   page, call microflow, ...)
+
+This is it!
 
 <img alt="Studio Pro (Actions) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/mendixconfig2.png" width="550px"/>
 

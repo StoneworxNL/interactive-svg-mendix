@@ -8,12 +8,13 @@ import { ActionValue, DynamicValue, WebImage } from "mendix";
 
 export type PropertyidentifierEnum = "id__" | "class__";
 
-export type PropertytypeEnum = "click" | "dblclick" | "mouseenter";
+export type PropertytypeEnum = "click" | "dblclick" | "mouseenter" | "mouseleave" | "mouseup";
 
 export interface ActionsType {
     propertyidentifier: PropertyidentifierEnum;
     propertyname: string;
     propertytype: PropertytypeEnum;
+    arialabeltext?: DynamicValue<string>;
     propertyvalue?: ActionValue;
 }
 
@@ -21,6 +22,7 @@ export interface ActionsPreviewType {
     propertyidentifier: PropertyidentifierEnum;
     propertyname: string;
     propertytype: PropertytypeEnum;
+    arialabeltext: string;
     propertyvalue: {} | null;
 }
 

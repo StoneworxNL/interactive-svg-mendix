@@ -40,6 +40,9 @@ export function InteractiveSVGComponent({ svg, actions }: InteractiveSVGComponen
                             currentAction?.propertyvalue?.execute();
                         });
                         (el as HTMLElement).style.cursor = "pointer";
+                        if (action.arialabeltext?.value) {
+                            el.setAttribute("aria-label", action.arialabeltext.value);
+                        }
                     });
                 }
             });

@@ -23,7 +23,7 @@
 
             <property key="actions" type="object" isList="true" required="false">
                 <caption>Actions</caption>
-                <description>To be triggered by the SVG.</description>
+                <description>Configurable SVG Interactions</description>
                 <properties>
                     <propertyGroup caption="Actions">
                         <property key="propertyidentifier" type="enumeration" defaultValue="id__">
@@ -34,7 +34,7 @@
                                 <enumerationValue key="class__">Class Name</enumerationValue>
                             </enumerationValues>
                         </property>
-                        <property key="propertyname" type="string">
+                        <property key="propertyname" type="string" required="true">
                             <caption>Class Name or ID of SVG element.</caption>
                             <description />
                         </property>
@@ -49,7 +49,11 @@
                                 <enumerationValue key="mouseup">Mouse Up</enumerationValue>
                             </enumerationValues>
                         </property>
-                        <property key="propertyvalue" type="action">
+                        <property key="arialabeltext" type="textTemplate" required="false">
+                            <caption>Aria Label (for accessibility)</caption>
+                            <description />
+                        </property>
+                        <property key="propertyvalue" type="action" required="true">
                             <caption>Action</caption>
                             <description />
                         </property>

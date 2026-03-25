@@ -1,0 +1,103 @@
+@import "custom-variables";
+@import url("https://fonts.googleapis.com/css2?family=Honk:MORF@15&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Honk:MORF,SHLN@38,94.9&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+.mx-clickable {
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.wrapper-svg-int {
+    background-color: #472edd;
+    .bannertitle {
+        padding: 0 40px 20px 40px;
+        span,
+        h1,
+        h2,
+        h3 {
+            color: #ffffff;
+        }
+        h1 {
+            font-family: "Honk", system-ui;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-variation-settings: "MORF" 15, "SHLN" 50;
+            font-size: 80pt;
+        }
+
+        h2,
+        h3 {
+            font-family: "Montserrat", sans-serif;
+            font-optical-sizing: auto;
+            // font-weight: ;
+            font-style: normal;
+        }
+        h3 {
+            color: #ffffb2;
+        }
+        text-align: center;
+    }
+    div {
+        padding: 0 50px;
+        svg {
+            border-radius: 50px;
+            box-shadow: #e0d2fa 0px 5px 15px;
+            margin-bottom: 40px;
+        }
+    }
+}
+
+.svg-wrapper {
+    transform: scale(0.2);
+    margin-left: -1150px;
+    margin-top: -750px;
+}
+
+.layout-atlas .region-topbar {
+    background-color: #472edd;
+    .btn-primary,
+    span,
+    .navbar-brand .widget-language-selector .language-arrow .arrow-image,
+    .navbar-brand .widget-language-selector .current-language-text,
+    .navbar-brand .widget-language-selector .language-arrow {
+        color: #ffffb2;
+        filter: none;
+    }
+}
+
+.layout-atlas .region-sidebar,
+.region-sidebar .mx-navigationtree,
+.region-sidebar .mx-navigationtree .navbar-inner > ul > li > a {
+    background-color: #f5f3f1;
+    box-shadow: none;
+    color: #030303;
+}
+
+body {
+    background-color: #f5f3f1;
+}
+
+.explanation {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    // font-weight: ;
+    font-style: normal;
+    .row {
+        margin: 20px 0;
+    }
+    h2 {
+        color: #ffffb2;
+    }
+    p,
+    span,
+    a {
+        font-size: medium;
+        color: #ffffff;
+    }
+    a {
+        color: #ffffb2;
+    }
+}
