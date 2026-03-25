@@ -31,7 +31,7 @@ sure they are identifiable through a class name or ID.
 2.  Select (and optionally group) the SVG elements you want to add Mendix actions to.
 3.  You need to add metadata to those elements (class name or id).
 
-<img alt="Editing SVG Image" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/svgcreate.png" width="550px"/>
+<img alt="Editing SVG Image" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/svgcreate.png" width="600px"/>
 
 ### Embed It In Mendix
 
