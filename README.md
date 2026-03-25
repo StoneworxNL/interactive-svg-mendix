@@ -5,7 +5,7 @@ opening a link, or calling a microflow/nanoflow.
 
 <img alt="Mendix Pluggable Widget Interactive SVG Logo" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/src/InteractiveSVG.icon.png" width="65px"/>
 
-![Demo (2)](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demo1.png)
+![Demo](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demo2.png)
 
 ## Why Do I Need This?
 
@@ -27,13 +27,11 @@ This widget allows for you to be in full control of those inner elements and the
 As a pre-requisite, you need an svg to embed in your page. To interact with certain elements of this svg you must make
 sure they are identifiable through a class name or ID.
 
-1.  Open your SVG image in an SVG-editor of your choice (an offline editor is, for example, Inkscape, and an online-one
-    could be, for example, Boxy-svg)
+1.  Open your SVG image in an SVG-editor of your choice.
 2.  Select (and optionally group) the SVG elements you want to add Mendix actions to.
 3.  You need to add metadata to those elements (class name or id).
 
-<img alt="Group SVG Elements" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/group.png" width="550px"/>
-<img alt="Editing SVG Image" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/editsvg.png" width="550px"/>
+<img alt="Editing SVG Image" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/svgcreate.png" width="550px"/>
 
 ### Embed It In Mendix
 
@@ -47,7 +45,9 @@ Embed the Interactive SVG widget into your page and configure its properties:
 
 This is it!
 
-<img alt="Studio Pro (Actions) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/mendixconfig2.png" width="550px"/>
+<img alt="Studio Pro (Page) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopromain.png" width="550px"/>
+<img alt="Studio Pro (Main) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro1.png" width="550px"/>
+<img alt="Studio Pro (Actions) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro2.png" width="550px"/>
 
 ### What if I want to style those SVG elements (eg: on-hover behaviours)?
 
@@ -70,7 +70,7 @@ styling later on. Then, in mendix, you define the class(es). Example shown below
 
 ### Demo
 
-![Demo (1)](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demogif.gif)
+![Demo](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demo5.gif)
 
 ## Issues, suggestions and feature requests
 
