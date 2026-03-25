@@ -39,10 +39,11 @@ Embed the Interactive SVG widget into your page and configure its properties:
 
 1. SVG Image (add your image);
 2. Add Actions. These are configurable interactions that consist of:
-   2.1. Property to identify SVG element (ID or Class);
-   2.2. The actual Class Name or ID depending on the previous answer;
-   2.3. Interaction type. This is the type of event. It can be either click, double-click, hover, mouse-leave, mouse up.
-   2.4. The actual Mendix action (eg. Open page, call microflow, ...)
+   
+   - Property to identify SVG element (ID or Class);
+   - The actual Class Name or ID depending on the previous answer;
+   - Interaction type. This is the type of event. It can be either click, double-click, hover, mouse-leave, mouse up.
+   - The actual Mendix action (eg. Open page, call microflow, ...)
 
 This is it!
 
