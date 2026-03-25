@@ -5,7 +5,7 @@ link, or calling a microflow/nanoflow.
 
 <img alt="Mendix Pluggable Widget Interactive SVG Logo" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/src/InteractiveSVG.icon.png" width="65px"/>
 
-![Demo](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demo2.png)
+![Demo](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demo5.gif)
 
 ## Why Do I Need This?
 
