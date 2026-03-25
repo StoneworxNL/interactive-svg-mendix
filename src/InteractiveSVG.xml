@@ -39,12 +39,14 @@
                             <description />
                         </property>
                         <property key="propertytype" type="enumeration" defaultValue="click">
-                            <caption>Interact on click, double-click or hover.</caption>
+                            <caption>Interaction type</caption>
                             <description />
                             <enumerationValues>
                                 <enumerationValue key="click">Click</enumerationValue>
                                 <enumerationValue key="dblclick">Double-click</enumerationValue>
                                 <enumerationValue key="mouseenter">Hover</enumerationValue>
+                                <enumerationValue key="mouseleave">Mouse Leave</enumerationValue>
+                                <enumerationValue key="mouseup">Mouse Up</enumerationValue>
                             </enumerationValues>
                         </property>
                         <property key="propertyvalue" type="action">
