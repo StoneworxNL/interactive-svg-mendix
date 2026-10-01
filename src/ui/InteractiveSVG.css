@@ -1,6 +1,12 @@
-/*
-Place your custom CSS here
-*/
-.widget-hello-world {
+/* Visible keyboard focus on the SVG elements the widget made focusable; the browser's own ring stays legible on any fill */
+.widget-interactive-svg [data-interactive-svg~="tabindex"]:focus-visible {
+    outline: auto;
+    outline-offset: 2px;
+}
 
+.widget-interactive-svg-placeholder {
+    padding: 24px;
+    border: 1px dashed #ced0d3;
+    text-align: center;
+    color: #6c717e;
 }
