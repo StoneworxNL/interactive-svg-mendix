@@ -10,9 +10,21 @@ export function InteractiveSVG({
     style,
     tabIndex,
     svg,
-    actions
+    triggeredelement,
+    actions,
+    states,
+    sanitizemode
 }: InteractiveSVGContainerProps): ReactElement {
     return (
-        <InteractiveSVGComponent className={className} style={style} tabIndex={tabIndex} svg={svg} actions={actions} />
+        <InteractiveSVGComponent
+            className={className}
+            style={style}
+            tabIndex={tabIndex}
+            svg={svg}
+            triggeredElement={triggeredelement}
+            actions={actions}
+            states={states}
+            sanitizeMode={sanitizemode}
+        />
     );
 }

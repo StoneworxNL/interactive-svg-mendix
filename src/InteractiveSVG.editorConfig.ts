@@ -29,5 +29,23 @@ export function check(values: InteractiveSVGPreviewProps): Problem[] {
             });
         }
     });
+    values.states.forEach((state, index) => {
+        const id = state.statename.trim().replace(/^#/, "");
+        if (state.stateidentifier === "id__" && /\s/.test(id)) {
+            problems.push({
+                property: `states/${index + 1}/statename`,
+                message: `Element state ${
+                    index + 1
+                }: an ID cannot contain spaces ("${id}"). Use "Class Name" to match several classes.`
+            });
+        }
+    });
+    if (values.triggeredelement && !values.actions.length) {
+        problems.push({
+            property: "triggeredelement",
+            severity: "warning",
+            message: "Triggered element is only set when an action runs; add an action."
+        });
+    }
     return problems;
 }

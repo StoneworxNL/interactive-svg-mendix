@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom";
-import { ActionValue, DynamicValue, WebImage } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, WebImage } from "mendix";
 import { act, fireEvent, render, RenderResult } from "@testing-library/react";
 import { ReactSVG } from "react-svg";
-import { ActionsType } from "../../../typings/InteractiveSVGProps";
-import { InteractiveSVGComponent, InteractiveSVGComponentProps } from "../InteractiveSVGComponent";
+import { ActionsType, StatesType } from "../../../typings/InteractiveSVGProps";
+import { ACTIONABLE_CLASS, InteractiveSVGComponent, InteractiveSVGComponentProps } from "../InteractiveSVGComponent";
 
 // Stands in for react-svg without network access: parses the SVG, then calls the hooks in the same order
 // as the real injector (beforeInjection on the detached SVG, insert, afterInjection). Like the real one, it
@@ -42,8 +42,21 @@ mockSvgSources["shapes.svg"] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox=
     <circle class="dot" r="3" />
     <g id="grp"><circle r="2" /></g>
     <rect id="own" tabindex="-1" role="img" width="5" height="5" />
+    <rect id="valued" class="step done" data-value="step-2" width="5" height="5" />
 </svg>`;
 mockSvgSources["other.svg"] = `<svg xmlns="http://www.w3.org/2000/svg"><rect id="other" width="5" height="5" /></svg>`;
+mockSvgSources["external.svg"] = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>@import url(https://evil.example/a.css);</style>
+    <defs><symbol id="sym"><rect width="1" height="1" /></symbol></defs>
+    <use id="local" href="#sym" />
+    <use id="localx" xlink:href="#sym" />
+    <use id="remote" href="https://evil.example/x.svg#a" />
+    <image id="pixel" href="https://evil.example/p.png" />
+    <image id="embedded" href="data:image/png;base64,iVBORw0KGgo=" />
+    <rect id="styled" style="fill: url(https://evil.example/f)" />
+    <rect id="painted" fill="url(#sym)" />
+    <a id="out" href="https://example.com"><text>z</text></a>
+</svg>`;
 mockSvgSources["unsafe.svg"] = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>.glow { fill: red; }</style>
     <script>window.pwned = true;</script>
@@ -87,6 +100,19 @@ function renderWidget(
     const result = render(<InteractiveSVGComponent svg={image("shapes.svg")} {...props} />);
     const byId = (id: string): SVGElement => result.container.querySelector(`[id="${id}"]`) as SVGElement;
     return { ...result, byId };
+}
+
+function state(statename: string, stateclass: string, condition: boolean | undefined, byClass = false): StatesType {
+    return {
+        stateidentifier: byClass ? "class__" : "id__",
+        statename,
+        stateclass,
+        statecondition: { status: condition === undefined ? "loading" : "available", value: condition }
+    } as unknown as StatesType;
+}
+
+function attribute(readOnly = false): EditableValue<string> {
+    return { readOnly, value: undefined, setValue: jest.fn() } as unknown as EditableValue<string>;
 }
 
 const executed = (a: ActionsType): number => (a.propertyvalue!.execute as jest.Mock).mock.calls.length;
@@ -228,7 +254,7 @@ describe("InteractiveSVGComponent", () => {
         expect(byId("safe")).not.toHaveAttribute("onmouseover");
         expect(byId("link")).not.toHaveAttribute("href");
         expect(byId("xlink").getAttribute("xlink:href")).toBeNull();
-        expect(byId("safe")).toHaveAttribute("class", "glow");
+        expect(byId("safe")).toHaveClass("glow");
         expect(byId("safe").getAttribute("style")).toContain("opacity");
         expect(container.querySelector("style")?.textContent).toContain(".glow");
 
@@ -258,5 +284,147 @@ describe("InteractiveSVGComponent", () => {
         rerender(<InteractiveSVGComponent svg={image(undefined, "unavailable")} actions={actions} />);
         expect(container.querySelector("svg")).toBeNull();
         expect(container.textContent).toBe("");
+    });
+
+    it("runs mouse down and right-click actions, suppressing the browser's context menu", () => {
+        const actions = [action("shape", "mousedown"), action("grp", "contextmenu")];
+        const { byId } = renderWidget({ actions });
+
+        fireEvent.mouseDown(byId("shape"));
+        const notCancelled = fireEvent.contextMenu(byId("grp"));
+
+        expect(actions.map(executed)).toEqual([1, 1]);
+        expect(notCancelled).toBe(false);
+    });
+
+    describe("long press", () => {
+        beforeEach(() => jest.useFakeTimers());
+        afterEach(() => jest.useRealTimers());
+
+        it("runs after holding still, and the click of that release does not run", () => {
+            const actions = [action("shape", "longpress"), action("shape")];
+            const { byId } = renderWidget({ actions });
+
+            fireEvent.pointerDown(byId("shape"));
+            act(() => jest.advanceTimersByTime(499));
+            expect(executed(actions[0])).toBe(0);
+            act(() => jest.advanceTimersByTime(1));
+            fireEvent.pointerUp(byId("shape"));
+            fireEvent.click(byId("shape"));
+            expect(actions.map(executed)).toEqual([1, 0]);
+
+            // A short press afterwards is a normal click again
+            fireEvent.pointerDown(byId("shape"));
+            fireEvent.pointerUp(byId("shape"));
+            fireEvent.click(byId("shape"));
+            act(() => jest.advanceTimersByTime(1000));
+            expect(actions.map(executed)).toEqual([1, 1]);
+        });
+
+        it("is cancelled when the pointer leaves", () => {
+            const actions = [action("shape", "longpress")];
+            const { byId } = renderWidget({ actions });
+
+            fireEvent.pointerDown(byId("shape"));
+            fireEvent.pointerLeave(byId("shape"));
+            act(() => jest.advanceTimersByTime(1000));
+
+            expect(executed(actions[0])).toBe(0);
+        });
+    });
+
+    it("ignores held-down Enter repeats", () => {
+        const actions = [action("shape")];
+        const { byId } = renderWidget({ actions });
+
+        fireEvent.keyDown(byId("shape"), { key: "Enter" });
+        fireEvent.keyDown(byId("shape"), { key: "Enter", repeat: true });
+
+        expect(executed(actions[0])).toBe(1);
+    });
+
+    it("reports the triggering element's data-value, or else its ID, before the action runs", () => {
+        const triggered = attribute();
+        const actions = [action("step", "click", { byClass: true }), action("shape")];
+        const order: string[] = [];
+        jest.mocked(triggered.setValue).mockImplementation(v => order.push(`set ${v}`));
+        jest.mocked(actions[1].propertyvalue!.execute).mockImplementation(() => order.push("execute"));
+        const { byId } = renderWidget({ actions, triggeredElement: triggered });
+
+        fireEvent.click(byId("valued"));
+        fireEvent.click(byId("shape"));
+
+        expect(triggered.setValue).toHaveBeenNthCalledWith(1, "step-2");
+        expect(order.slice(-2)).toEqual(["set shape", "execute"]);
+    });
+
+    it("leaves a read-only triggered element attribute alone", () => {
+        const triggered = attribute(true);
+        const actions = [action("shape")];
+        const { byId } = renderWidget({ actions, triggeredElement: triggered });
+
+        fireEvent.click(byId("shape"));
+
+        expect(triggered.setValue).not.toHaveBeenCalled();
+        expect(executed(actions[0])).toBe(1);
+    });
+
+    it("marks elements with a runnable action with a class instead of an inline cursor", () => {
+        const { byId, rerender } = renderWidget({ actions: [action("shape")] });
+        expect(byId("shape")).toHaveClass(ACTIONABLE_CLASS);
+        expect(byId("shape").style.cursor).toBe("");
+
+        rerender(
+            <InteractiveSVGComponent
+                svg={image("shapes.svg")}
+                actions={[action("shape", "click", { canExecute: false })]}
+            />
+        );
+        expect(byId("shape")).not.toHaveClass(ACTIONABLE_CLASS);
+    });
+
+    it("adds state classes while their condition is true and keeps the SVG's own classes", () => {
+        const render1 = [state("shape", "active highlighted", true), state("step", "done", true, true)];
+        const { byId, rerender } = renderWidget({ actions: [], states: render1 });
+        expect(byId("shape")).toHaveClass("active", "highlighted");
+        expect(byId("valued")).toHaveClass("step", "done");
+
+        const render2 = [state("shape", "active highlighted", false), state("step", "done", false, true)];
+        rerender(<InteractiveSVGComponent svg={image("shapes.svg")} actions={[]} states={render2} />);
+        expect(byId("shape")).not.toHaveClass("active");
+        expect(byId("shape")).not.toHaveClass("highlighted");
+        // "done" is part of the SVG itself, so it stays
+        expect(byId("valued")).toHaveClass("step", "done");
+
+        rerender(
+            <InteractiveSVGComponent
+                svg={image("shapes.svg")}
+                actions={[]}
+                states={[state("shape", "active", undefined)]}
+            />
+        );
+        expect(byId("shape")).not.toHaveClass("active");
+    });
+
+    it("keeps local <use> references and drops external ones", () => {
+        const { byId } = renderWidget({ svg: image("external.svg"), actions: [] });
+
+        expect(byId("local")).toHaveAttribute("href", "#sym");
+        expect(byId("localx").getAttribute("xlink:href")).toBe("#sym");
+        expect(byId("remote")).not.toHaveAttribute("href");
+        // Standard mode keeps styles and external images
+        expect(byId("pixel")).toHaveAttribute("href");
+    });
+
+    it("removes style blocks and external resources in strict mode", () => {
+        const { byId, container } = renderWidget({ svg: image("external.svg"), actions: [], sanitizeMode: "strict" });
+
+        expect(container.querySelector("style")).toBeNull();
+        expect(byId("pixel")).not.toHaveAttribute("href");
+        expect(byId("embedded")).toHaveAttribute("href");
+        expect(byId("styled")).not.toHaveAttribute("style");
+        expect(byId("painted")).toHaveAttribute("fill", "url(#sym)");
+        expect(byId("out")).toHaveAttribute("href", "https://example.com");
+        expect(byId("local")).toHaveAttribute("href", "#sym");
     });
 });

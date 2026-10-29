@@ -1,3 +1,14 @@
+/* SVGs with a viewBox scale down with their container instead of overflowing it */
+.widget-interactive-svg svg[viewBox] {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Elements with an action the user can run */
+.widget-interactive-svg .interactive-svg-actionable {
+    cursor: pointer;
+}
+
 /* Visible keyboard focus on the SVG elements the widget made focusable; the browser's own ring stays legible on any fill */
 .widget-interactive-svg [data-interactive-svg~="tabindex"]:focus-visible {
     outline: auto;
