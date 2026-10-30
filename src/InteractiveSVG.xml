@@ -13,6 +13,8 @@
     <description>
         Widget to show svg(s) in a Mendix Application. User(s) can interact with this svg and trigger Mendix actions.
     </description>
+    <studioProCategory>Display</studioProCategory>
+    <helpUrl>https://github.com/StoneworxNL/interactive-svg-mendix#readme</helpUrl>
     <icon />
     <properties>
         <propertyGroup caption="General">
@@ -50,7 +52,10 @@
                         </property>
                         <property key="propertytype" type="enumeration" defaultValue="click">
                             <caption>Interaction type</caption>
-                            <description />
+                            <description>
+                                Hover and Mouse Leave fire often: use a nanoflow for them to avoid a server round trip
+                                each time.
+                            </description>
                             <enumerationValues>
                                 <enumerationValue key="click">Click</enumerationValue>
                                 <enumerationValue key="dblclick">Double-click</enumerationValue>

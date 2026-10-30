@@ -58,6 +58,10 @@ Set **Triggered element** to a String attribute of the context object. Before an
 `data-value`. One action can then serve many elements: give every seat of a seat map the class `seat` and a
 `data-value`, add one Click action on the class `seat`, and read the attribute in the microflow.
 
+The user needs write access to that attribute: when it is read-only, the widget does not run the action (and logs a
+warning), so the action never sees the previous element's value. Use a non-persistent helper object for it, so an object
+being edited is not marked as changed. The value comes from the SVG, so treat it as user input (see Security).
+
 ### Let App Data Drive The SVG (Element States)
 
 **Element states** add a class to SVG elements while a condition is true, and remove it again when it is false. Use them
@@ -109,12 +113,28 @@ classes, inline styles and `<style>` blocks are kept. `<use>` is kept only when 
 SVG.
 
 A `<style>` block in an inline SVG applies to the whole page, and links to images, fonts or stylesheets elsewhere make
-the browser contact that server. When users can upload the SVG, set **Sanitizing** to **Strict**: it also removes
-`<style>` blocks, CSS `url(...)` values that point outside the SVG, and external image or filter sources (embedded
-`data:image` images and links in `<a>` elements are kept). Strict SVGs can still be animated with your theme's CSS.
+the browser contact that server. When users can upload the SVG, set **Sanitizing** to **Strict**; Studio Pro warns when
+the image comes from an entity and Sanitizing is Standard. Strict also removes:
+
+-   `<style>` blocks;
+-   CSS that loads something from outside the SVG (`url(...)` other than `url(#id)`, `image-set(...)`, `@import`), also
+    when it is written with CSS escapes or comments;
+-   external image and filter sources (embedded `data:image` images are kept);
+-   links in `<a>` elements that leave the page (links to `#id` inside the SVG are kept).
+
+Strict SVGs can still be animated and styled with your theme's CSS.
+
+**Triggered element is user input.** With uploaded SVGs, anyone can choose the `data-value` or ID an element reports.
+Validate it in the action (for example, check that the object it names exists and that the user may act on it) before
+using it.
 
 For animation, use CSS (in a `<style>` block or your theme) or `<animateTransform>` / `<animateMotion>` with `values`
 (their `from`/`to` attributes are removed by the sanitizer).
+
+### Performance Tip
+
+Hover and Mouse Leave fire every time the pointer crosses an element. Use a nanoflow for those actions, so they don't
+make a round trip to the server each time.
 
 ### What If I Want To Style Those SVG Elements (e.g. On-Hover Behaviours)?
 
@@ -168,9 +188,9 @@ double-click and the door a long press.
 <img alt="Lighthouse story demo, chapter 3" src="images/demo-lighthouse.png" width="700px"/>
 <img alt="Lighthouse story demo, final chapter" src="images/demo-lighthouse-end.png" width="450px"/>
 
-**Boombox 3000**: a product page. Swatches and hover cards use one action per class plus Triggered element; mouse
-down drives the volume buttons, a long press guards the power switch, a double-click toggles bass boost and a
-right-click opens a Mendix menu instead of the browser's.
+**Boombox 3000**: a product page. Swatches and hover cards use one action per class plus Triggered element; mouse down
+drives the volume buttons, a long press guards the power switch, a double-click toggles bass boost and a right-click
+opens a Mendix menu instead of the browser's.
 
 <img alt="Boombox product demo" src="images/demo-boombox.png" width="700px"/>
 
@@ -185,9 +205,22 @@ but keeps shapes, IDs, classes and animations.
 
 <img alt="Standard versus Strict sanitizing" src="images/demo-security.png" width="700px"/>
 
+## Upgrading From 1.0.x
+
+1.1.0 and later sanitize the SVG before it is shown, so some SVGs render differently after the upgrade:
+
+-   `<script>`, event handler attributes, `javascript:` links and `<foreignObject>` content are removed;
+-   `<use>` that points to another file is removed (references inside the SVG still work);
+-   SMIL `<animate>` and `<set>` are removed, and `from`/`to` are removed from `<animateTransform>`; use `values` or
+    CSS;
+-   the SVG now sits inside a `div.widget-interactive-svg`, which can affect CSS that counted wrapper `div`s.
+
+See [CHANGELOG.md](CHANGELOG.md) for everything that changed.
+
 ## Development
 
-Requires Node.js 20 or later.
+Requires Mendix 11 or later (the widget is built with Pluggable Widgets Tools 11 and React 19) and Node.js 20 or later
+to build.
 
 -   `npm run build`: development build, copied into the Mendix app configured in `package.json` (`config.projectPath`);
 -   `npm test`: unit tests;

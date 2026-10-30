@@ -3,8 +3,8 @@
   "widgetName": "InteractiveSVG",
   "version": "1.2.0",
   "description": "Widget to show svg(s) in a Mendix Application. User(s) can interact with this svg and trigger Mendix actions.",
-  "copyright": "JL 2025",
-  "author": "JL",
+  "copyright": "Stoneworx 2025",
+  "author": "Stoneworx",
   "engines": {
     "node": ">=20"
   },

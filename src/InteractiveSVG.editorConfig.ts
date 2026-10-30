@@ -18,6 +18,14 @@ export function check(values: InteractiveSVGPreviewProps): Problem[] {
             message: "Select an SVG image; the widget renders nothing without one."
         });
     }
+    if (values.svg?.type === "dynamic" && values.sanitizemode === "standard") {
+        problems.push({
+            property: "sanitizemode",
+            severity: "warning",
+            message:
+                "The image comes from an entity, so users may be able to upload it. Set Sanitizing to Strict: Standard keeps <style> blocks, which restyle the whole page."
+        });
+    }
     values.actions.forEach((action, index) => {
         const id = action.propertyname.trim().replace(/^#/, "");
         if (action.propertyidentifier === "id__" && /\s/.test(id)) {

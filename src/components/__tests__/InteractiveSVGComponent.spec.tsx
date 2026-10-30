@@ -42,6 +42,7 @@ mockSvgSources["shapes.svg"] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox=
     <circle class="dot" r="3" />
     <g id="grp"><circle r="2" /></g>
     <rect id="own" tabindex="-1" role="img" width="5" height="5" />
+    <rect id="labelled" aria-label="Designer label" width="5" height="5" />
     <rect id="valued" class="step done" data-value="step-2" width="5" height="5" />
 </svg>`;
 mockSvgSources["other.svg"] = `<svg xmlns="http://www.w3.org/2000/svg"><rect id="other" width="5" height="5" /></svg>`;
@@ -56,6 +57,12 @@ mockSvgSources["external.svg"] = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:
     <rect id="styled" style="fill: url(https://evil.example/f)" />
     <rect id="painted" fill="url(#sym)" />
     <a id="out" href="https://example.com"><text>z</text></a>
+    <a id="anchor" href="#sym"><text>y</text></a>
+    <rect id="escaped" style="fill: u\\72l(https://evil.example/e)" />
+    <rect id="commented" style="fill: u/**/rl(https://evil.example/c)" />
+    <rect id="imageset" style="fill: image-set('https://evil.example/s.png' 1x)" />
+    <rect id="escapedfill" fill="u\\72l(https://evil.example/e)" />
+    <rect id="plain" style="opacity: 0.5" />
 </svg>`;
 mockSvgSources["unsafe.svg"] = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>.glow { fill: red; }</style>
@@ -186,6 +193,16 @@ describe("InteractiveSVGComponent", () => {
             />
         );
         expect(byId("shape").getAttribute("aria-label")).toBe("Open details");
+
+        rerender(
+            <InteractiveSVGComponent svg={image("shapes.svg")} actions={[action("shape", "click", { label: "" })]} />
+        );
+        expect(byId("shape").hasAttribute("aria-label")).toBe(false);
+    });
+
+    it("keeps an aria-label the SVG defines itself", () => {
+        const { byId } = renderWidget({ actions: [action("labelled", "click", { label: "Configured" })] });
+        expect(byId("labelled")).toHaveAttribute("aria-label", "Designer label");
     });
 
     it("makes executable elements focusable buttons and undoes it when they can no longer execute", () => {
@@ -358,7 +375,7 @@ describe("InteractiveSVGComponent", () => {
         expect(order.slice(-2)).toEqual(["set shape", "execute"]);
     });
 
-    it("leaves a read-only triggered element attribute alone", () => {
+    it("does not run the action when the triggered element attribute is read-only", () => {
         const triggered = attribute(true);
         const actions = [action("shape")];
         const { byId } = renderWidget({ actions, triggeredElement: triggered });
@@ -366,7 +383,8 @@ describe("InteractiveSVGComponent", () => {
         fireEvent.click(byId("shape"));
 
         expect(triggered.setValue).not.toHaveBeenCalled();
-        expect(executed(actions[0])).toBe(1);
+        expect(executed(actions[0])).toBe(0);
+        expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("read-only"));
     });
 
     it("marks elements with a runnable action with a class instead of an inline cursor", () => {
@@ -424,7 +442,26 @@ describe("InteractiveSVGComponent", () => {
         expect(byId("embedded")).toHaveAttribute("href");
         expect(byId("styled")).not.toHaveAttribute("style");
         expect(byId("painted")).toHaveAttribute("fill", "url(#sym)");
-        expect(byId("out")).toHaveAttribute("href", "https://example.com");
         expect(byId("local")).toHaveAttribute("href", "#sym");
+    });
+
+    it("sees through CSS escapes, comments and image-set in strict mode", () => {
+        const { byId } = renderWidget({ svg: image("external.svg"), actions: [], sanitizeMode: "strict" });
+
+        expect(byId("escaped")).not.toHaveAttribute("style");
+        expect(byId("commented")).not.toHaveAttribute("style");
+        expect(byId("imageset")).not.toHaveAttribute("style");
+        expect(byId("escapedfill")).not.toHaveAttribute("fill");
+        expect(byId("plain")).toHaveAttribute("style", "opacity: 0.5");
+    });
+
+    it("drops links that leave the page in strict mode and keeps them in standard mode", () => {
+        const strict = renderWidget({ svg: image("external.svg"), actions: [], sanitizeMode: "strict" });
+        expect(strict.byId("out")).not.toHaveAttribute("href");
+        expect(strict.byId("anchor")).toHaveAttribute("href", "#sym");
+        strict.unmount();
+
+        const standard = renderWidget({ svg: image("external.svg"), actions: [] });
+        expect(standard.byId("out")).toHaveAttribute("href", "https://example.com");
     });
 });

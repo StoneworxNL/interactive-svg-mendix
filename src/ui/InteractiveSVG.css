@@ -7,6 +7,10 @@
 /* Elements with an action the user can run */
 .widget-interactive-svg .interactive-svg-actionable {
     cursor: pointer;
+    /* A long press on iOS would otherwise select text or open the callout menu */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 /* Visible keyboard focus on the SVG elements the widget made focusable; the browser's own ring stays legible on any fill */

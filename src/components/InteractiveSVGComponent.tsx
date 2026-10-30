@@ -58,11 +58,26 @@ const findActionTargets = (svgElement: SVGSVGElement, action: ActionsType): SVGE
 
 const isLocalReference = (value: string): boolean => value.trim().startsWith("#");
 const isEmbeddedImage = (value: string): boolean => /^data:image\/(png|jpe?g|gif|webp|avif);/i.test(value.trim());
-// Any url(...) other than a reference to an element of the SVG itself, e.g. url(#gradient)
-const EXTERNAL_CSS_URL = /url\(\s*(?!['"]?#)/i;
+// CSS lets "url(" be written with escapes ("u\72l(") or comments, so values are decoded before they are checked
+function decodeCss(value: string): string {
+    return value
+        .replace(/\/\*[\s\S]*?\*\//g, "")
+        .replace(/\\([0-9a-f]{1,6})\s?/gi, (_, hex: string) => {
+            const codePoint = parseInt(hex, 16);
+            return codePoint > 0 && codePoint <= 0x10ffff ? String.fromCodePoint(codePoint) : "\ufffd";
+        })
+        .replace(/\\([\s\S])/g, "$1");
+}
+
+// Any CSS that makes the browser fetch something: url(...) other than a reference inside the SVG, e.g. url(#gradient),
+// image-set(...), image(...), cross-fade(...) and @import
+const EXTERNAL_CSS_RESOURCE = /url\(\s*(?!['"]?\s*#)|image-set\(|(^|[^\w-])image\(|cross-fade\(|@import/i;
+
+export const loadsExternalResource = (value: string): boolean => EXTERNAL_CSS_RESOURCE.test(decodeCss(value));
 
 // <use> is kept so symbols from design tools still render, but only when it points inside the SVG. Strict mode
-// also drops everything that would make the browser fetch another resource (tracking pixels, CSS imports...).
+// also drops everything that would make the browser fetch another resource (tracking pixels, CSS imports...) and links
+// that leave the page.
 function referenceHook(mode: SanitizemodeEnum): UponSanitizeAttributeHook {
     return (node, data) => {
         const tag = node.nodeName.toLowerCase();
@@ -73,10 +88,10 @@ function referenceHook(mode: SanitizemodeEnum): UponSanitizeAttributeHook {
         if (mode !== "strict") {
             return;
         }
-        if (isLink && tag !== "a" && !isLocalReference(data.attrValue) && !isEmbeddedImage(data.attrValue)) {
+        if (isLink && !isLocalReference(data.attrValue) && (tag === "a" || !isEmbeddedImage(data.attrValue))) {
             data.keepAttr = false;
         }
-        if (EXTERNAL_CSS_URL.test(data.attrValue)) {
+        if (loadsExternalResource(data.attrValue)) {
             data.keepAttr = false;
         }
     };
@@ -180,9 +195,14 @@ export function InteractiveSVGComponent({
             const actionValue = actionsRef.current[index]?.propertyvalue;
             if (actionValue?.canExecute && !actionValue.isExecuting) {
                 const attribute = triggeredElementRef.current;
-                if (attribute && !attribute.readOnly) {
-                    attribute.setValue(triggerValue(target));
+                if (attribute?.readOnly) {
+                    // Running without the new value would act on the previously triggered element
+                    console.warn(
+                        "InteractiveSVG: Triggered element is read-only for this user, so the action does not run."
+                    );
+                    return;
                 }
+                attribute?.setValue(triggerValue(target));
                 actionValue.execute();
             }
         };
@@ -317,9 +337,7 @@ export function InteractiveSVGComponent({
             }
             setOwnedAttribute(target, "tabindex", executable ? String(tabIndex ?? 0) : undefined);
             setOwnedAttribute(target, "role", activatable ? "button" : undefined);
-            if (label) {
-                target.setAttribute("aria-label", label);
-            }
+            setOwnedAttribute(target, "aria-label", label || undefined);
         });
 
         states.forEach(state => {
