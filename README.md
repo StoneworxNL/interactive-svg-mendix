@@ -148,6 +148,11 @@ before importing the demo module. Its page styling is included in the module's t
 Screenshots of a demo app that uses every feature of version 1.2.0. Each demo is one SVG, one non-persistent context
 object and a handful of microflows.
 
+The demo app, built with the Stoneworx theme:
+
+<img alt="Demo app with the Stoneworx topbar and side navigation" src="images/demo-app-shell.png" width="800px"/>
+<img alt="Demo app showing the Event lab page" src="images/demo-app-event-lab.png" width="800px"/>
+
 <img alt="Demo app landing page" src="images/demo-home.png" width="700px"/>
 
 **Event lab**: one tile per interaction type (click, double-click, hover, mouse leave, mouse down, mouse up,
