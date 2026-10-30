@@ -143,6 +143,43 @@ before importing the demo module. Its page styling is included in the module's t
 
 ![Demo](https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/images/demo5.gif)
 
+## Demos
+
+Screenshots of a demo app that uses every feature of version 1.2.0. Each demo is one SVG, one non-persistent context
+object and a handful of microflows.
+
+<img alt="Demo app landing page" src="images/demo-home.png" width="700px"/>
+
+**Event lab**: one tile per interaction type (click, double-click, hover, mouse leave, mouse down, mouse up,
+right-click, long press), each with an Aria label. One action on the class `lab-gem` fills **Triggered element** with
+the gem's `data-value`, and **Element states** light the fired tile, the picked gem and the counter LEDs.
+
+<img alt="Event lab demo" src="images/demo-event-lab.png" width="700px"/>
+
+**The lighthouse**: a five-chapter story driven by a single Integer. Element states such as `story-ship` gets
+`story-pos-3` while `$currentObject/Step = 3` move the ship, light the beam and open the door; the bell is a
+double-click and the door a long press.
+
+<img alt="Lighthouse story demo, chapter 3" src="images/demo-lighthouse.png" width="700px"/>
+<img alt="Lighthouse story demo, final chapter" src="images/demo-lighthouse-end.png" width="450px"/>
+
+**Boombox 3000**: a product page. Swatches and hover cards use one action per class plus Triggered element; mouse
+down drives the volume buttons, a long press guards the power switch, a double-click toggles bass boost and a
+right-click opens a Mendix menu instead of the browser's.
+
+<img alt="Boombox product demo" src="images/demo-boombox.png" width="700px"/>
+
+**Motion factory**: machines and parcels animated with `<animateMotion>` stay clickable while they move. Machine
+statuses from the app become `is-alarm`, `is-idle` and `is-selected` classes; double-click acknowledges the alarm and a
+long press on the lever stops the line.
+
+<img alt="Motion factory demo" src="images/demo-factory.png" width="700px"/>
+
+**Security**: the same kind of SVG with **Sanitizing** set to Standard and to Strict. Strict drops the `<style>` block
+but keeps shapes, IDs, classes and animations.
+
+<img alt="Standard versus Strict sanitizing" src="images/demo-security.png" width="700px"/>
+
 ## Development
 
 Requires Node.js 20 or later.
