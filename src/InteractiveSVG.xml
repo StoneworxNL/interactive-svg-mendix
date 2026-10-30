@@ -13,12 +13,24 @@
     <description>
         Widget to show svg(s) in a Mendix Application. User(s) can interact with this svg and trigger Mendix actions.
     </description>
+    <studioProCategory>Display</studioProCategory>
+    <helpUrl>https://github.com/StoneworxNL/interactive-svg-mendix#readme</helpUrl>
     <icon />
     <properties>
         <propertyGroup caption="General">
             <property key="svg" type="image" required="false">
                 <caption>SVG Image</caption>
                 <description />
+            </property>
+            <property key="triggeredelement" type="attribute" required="false">
+                <caption>Triggered element</caption>
+                <description>
+                    Receives the data-value (or else the ID) of the element that triggered an action, before the action
+                    runs. Lets one action serve many elements, for example every element with a class.
+                </description>
+                <attributeTypes>
+                    <attributeType name="String" />
+                </attributeTypes>
             </property>
 
             <property key="actions" type="object" isList="true" required="false">
@@ -40,13 +52,19 @@
                         </property>
                         <property key="propertytype" type="enumeration" defaultValue="click">
                             <caption>Interaction type</caption>
-                            <description />
+                            <description>
+                                Hover and Mouse Leave fire often: use a nanoflow for them to avoid a server round trip
+                                each time.
+                            </description>
                             <enumerationValues>
                                 <enumerationValue key="click">Click</enumerationValue>
                                 <enumerationValue key="dblclick">Double-click</enumerationValue>
                                 <enumerationValue key="mouseenter">Hover</enumerationValue>
                                 <enumerationValue key="mouseleave">Mouse Leave</enumerationValue>
                                 <enumerationValue key="mouseup">Mouse Up</enumerationValue>
+                                <enumerationValue key="mousedown">Mouse Down</enumerationValue>
+                                <enumerationValue key="contextmenu">Right-click</enumerationValue>
+                                <enumerationValue key="longpress">Long press</enumerationValue>
                             </enumerationValues>
                         </property>
                         <property key="arialabeltext" type="textTemplate" required="false">
@@ -59,6 +77,53 @@
                         </property>
                     </propertyGroup>
                 </properties>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Element states">
+            <property key="states" type="object" isList="true" required="false">
+                <caption>Element states</caption>
+                <description>
+                    Adds a class to SVG elements while a condition is true, so the SVG can reflect app data (selection,
+                    progress, status...)
+                </description>
+                <properties>
+                    <propertyGroup caption="Element state">
+                        <property key="stateidentifier" type="enumeration" defaultValue="id__">
+                            <caption>Property to identify SVG element.</caption>
+                            <description />
+                            <enumerationValues>
+                                <enumerationValue key="id__">ID</enumerationValue>
+                                <enumerationValue key="class__">Class Name</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="statename" type="string" required="true">
+                            <caption>Class Name or ID of SVG element.</caption>
+                            <description />
+                        </property>
+                        <property key="stateclass" type="string" required="true">
+                            <caption>Class to add</caption>
+                            <description>One or more class names, separated by spaces</description>
+                        </property>
+                        <property key="statecondition" type="expression" required="true" defaultValue="true">
+                            <caption>Condition</caption>
+                            <description>The class is added while this is true</description>
+                            <returnType type="Boolean" />
+                        </property>
+                    </propertyGroup>
+                </properties>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Security">
+            <property key="sanitizemode" type="enumeration" defaultValue="standard">
+                <caption>Sanitizing</caption>
+                <description>
+                    Strict also removes style blocks and links to external resources. Use it when users can upload the
+                    SVG.
+                </description>
+                <enumerationValues>
+                    <enumerationValue key="standard">Standard</enumerationValue>
+                    <enumerationValue key="strict">Strict</enumerationValue>
+                </enumerationValues>
             </property>
         </propertyGroup>
     </properties>

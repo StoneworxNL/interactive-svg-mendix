@@ -5,6 +5,26 @@ import { InteractiveSVGContainerProps } from "../typings/InteractiveSVGProps";
 
 import "./ui/InteractiveSVG.css";
 
-export function InteractiveSVG({ svg, actions }: InteractiveSVGContainerProps): ReactElement {
-    return <InteractiveSVGComponent svg={svg} actions={actions} />;
+export function InteractiveSVG({
+    class: className,
+    style,
+    tabIndex,
+    svg,
+    triggeredelement,
+    actions,
+    states,
+    sanitizemode
+}: InteractiveSVGContainerProps): ReactElement {
+    return (
+        <InteractiveSVGComponent
+            className={className}
+            style={style}
+            tabIndex={tabIndex}
+            svg={svg}
+            triggeredElement={triggeredelement}
+            actions={actions}
+            states={states}
+            sanitizeMode={sanitizemode}
+        />
+    );
 }

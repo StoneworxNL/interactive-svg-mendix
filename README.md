@@ -3,35 +3,35 @@
 Interactive SVG Mendix Pluggable Widget that allows any SVG to trigger Mendix Actions like opening a page, opening a
 link, or calling a microflow/nanoflow.
 
-<img alt="Mendix Pluggable Widget Interactive SVG Logo" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/src/InteractiveSVG.icon.png" width="65px"/>
+<img alt="Mendix Pluggable Widget Interactive SVG Logo" src="https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/src/InteractiveSVG.icon.png" width="65px"/>
 
-![Demo](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demo5.gif)
+![Demo](https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/images/demo5.gif)
 
 ## Why Do I Need This?
 
 The use-case would be: your client or partner provides you with a complex image, diagram... and says: "I want this as
-the homepage banner and I want different parts of this image to trigger different actions.
+the homepage banner and I want different parts of this image to trigger different actions."
 
-Part A needs to forward the user to url "xyz", Part B needs to open a modal do create object "abc", Part C needs
-triggers the microflow "asd", Part D has a certain behaviour on hover... And so on...
+Part A needs to forward the user to URL "xyz", Part B needs to open a modal to create object "abc", Part C triggers the
+microflow "asd", Part D has a certain behaviour on hover... And so on...
 
 In summary, you have a complex image with different elements and each element may trigger actions on click,
 double-click, hover...
 
-This widget allows for you to be in full control of those inner elements and the actions they may trigger.
+This widget puts you in full control of those inner elements and the actions they trigger.
 
 ## How To Use
 
 ### Prepare Your SVG Image
 
-As a pre-requisite, you need an svg to embed in your page. To interact with certain elements of this svg you must make
+As a prerequisite, you need an SVG to embed in your page. To interact with certain elements of this SVG you must make
 sure they are identifiable through a class name or ID.
 
-1.  Open your SVG image in an SVG-editor of your choice.
+1.  Open your SVG image in an SVG editor of your choice.
 2.  Select (and optionally group) the SVG elements you want to add Mendix actions to.
-3.  You need to add metadata to those elements (class name or id).
+3.  Add metadata to those elements (class name or ID).
 
-<img alt="Editing SVG Image" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/svgcreate.png" width="600px"/>
+<img alt="Editing SVG Image" src="https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/images/svgcreate.png" width="600px"/>
 
 ### Embed It In Mendix
 
@@ -39,39 +39,194 @@ Embed the Interactive SVG widget into your page and configure its properties:
 
 1. SVG Image (add your image);
 2. Add Actions. These are configurable interactions that consist of:
-   
-   - Property to identify SVG element (ID or Class);
-   - The actual Class Name or ID depending on the previous answer;
-   - Interaction type. This is the type of event. It can be either click, double-click, hover, mouse-leave, mouse up;
-   - Optional Aria Label (for accessibility);
-   - The actual Mendix action (eg. Open page, call microflow, ...).
 
-This is it!
+    - Property to identify SVG element (ID or Class);
+    - The actual Class Name or ID depending on the previous answer. A leading `#` or `.` is fine, and several class
+      names separated by spaces match elements that have all of them;
+    - Interaction type. This is the type of event: click, double-click, hover, mouse leave, mouse up, mouse down,
+      right-click (the browser's own context menu is suppressed) or long press (holding the pointer still for half a
+      second, handy on touch screens; the click of that same release does not run);
+    - Optional Aria Label (for accessibility);
+    - The actual Mendix action (e.g. open page, call microflow, ...).
 
-<img alt="Studio Pro (Page) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopromain.png" width="600px"/>
-<img alt="Studio Pro (Main) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro1.png" width="400px"/>
-<img alt="Studio Pro (Actions) Configuration" src="https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/studiopro2.png" width="400px"/>
+This is it! If a class name or ID matches nothing in the SVG, the widget logs a warning in the browser console.
 
-### What if I want to style those SVG elements (eg: on-hover behaviours)?
+### Know Which Element Was Used
 
-Using the chosen SVG editor, you can (optionally) add a CSS class to those elements in case you want to add some hover
-styling later on. Then, in mendix, you define the class(es). Example shown below:
+Set **Triggered element** to a String attribute of the context object. Before an action runs, the widget writes the
+`data-value` attribute of the element that triggered it into that attribute, or the element's ID when it has no
+`data-value`. One action can then serve many elements: give every seat of a seat map the class `seat` and a
+`data-value`, add one Click action on the class `seat`, and read the attribute in the microflow.
+
+The user needs write access to that attribute: when it is read-only, the widget does not run the action (and logs a
+warning), so the action never sees the previous element's value. Use a non-persistent helper object for it, so an object
+being edited is not marked as changed. The value comes from the SVG, so treat it as user input (see Security).
+
+### Let App Data Drive The SVG (Element States)
+
+**Element states** add a class to SVG elements while a condition is true, and remove it again when it is false. Use them
+to highlight the selected element, show progress, color items by status, or reveal the next step of a story:
+
+| Class name or ID | Class to add | Condition                              |
+| ---------------- | ------------ | -------------------------------------- |
+| `chapter-2`      | `visible`    | `$currentObject/Step >= 2`             |
+| `seat`           | `dimmed`     | `$currentObject/SelectedSeat != empty` |
+
+Style the classes in your theme, for example `.visible { opacity: 1; transition: opacity 0.4s; }`. Classes that the SVG
+itself already defines are never removed.
+
+<img alt="Studio Pro (Page) Configuration" src="https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/images/studiopromain.png" width="600px"/>
+<img alt="Studio Pro (Main) Configuration" src="https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/images/studiopro1.png" width="400px"/>
+<img alt="Studio Pro (Actions) Configuration" src="https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/images/studiopro2.png" width="400px"/>
+
+### Keyboard And Screen Reader Support
+
+Elements with an action the user can run are added to the tab order, using the widget's Tab index from Studio Pro.
+
+-   Elements with a click, double-click or mouse up action are announced as buttons. Enter or Space runs the element's
+    click actions; an element without one runs its double-click actions instead, or else its mouse up actions.
+-   Hover and mouse leave actions also run when the element gets or loses keyboard focus.
+-   The Aria Label becomes the element's accessible name. Without one, screen readers fall back to a `<title>` inside
+    the element, so give each interactive element a label or a title.
+
+`tabindex` and `role` attributes that your SVG already defines are left as they are.
+
+### Styling Hooks
+
+Elements with an action the user can run get the class `interactive-svg-actionable`, which sets the pointer cursor. Use
+it for hover styles that only apply while an action is available:
 
 ```css
-.mx-clickable:hover {
-   opacity: 0.7;
+.interactive-svg-actionable:hover {
+    opacity: 0.7;
 }
 ```
 
-## Demo project
+SVGs with a `viewBox` scale down to fit their container.
+
+### Security
+
+The SVG is inserted into the page as markup, so the widget sanitizes it with
+[DOMPurify](https://github.com/cure53/DOMPurify) first. Scripts, event handler attributes (`onclick`, `onmouseover`,
+...), `javascript:` links, `<foreignObject>` content and SMIL `<animate>`/`<set>` elements are removed; shapes, IDs,
+classes, inline styles and `<style>` blocks are kept. `<use>` is kept only when it points to an element inside the same
+SVG.
+
+A `<style>` block in an inline SVG applies to the whole page, and links to images, fonts or stylesheets elsewhere make
+the browser contact that server. When users can upload the SVG, set **Sanitizing** to **Strict**; Studio Pro warns when
+the image comes from an entity and Sanitizing is Standard. Strict also removes:
+
+-   `<style>` blocks;
+-   CSS that loads something from outside the SVG (`url(...)` other than `url(#id)`, `image-set(...)`, `@import`), also
+    when it is written with CSS escapes or comments;
+-   external image and filter sources (embedded `data:image` images are kept);
+-   links in `<a>` elements that leave the page (links to `#id` inside the SVG are kept).
+
+Strict SVGs can still be animated and styled with your theme's CSS.
+
+**Triggered element is user input.** With uploaded SVGs, anyone can choose the `data-value` or ID an element reports.
+Validate it in the action (for example, check that the object it names exists and that the user may act on it) before
+using it.
+
+For animation, use CSS (in a `<style>` block or your theme) or `<animateTransform>` / `<animateMotion>` with `values`
+(their `from`/`to` attributes are removed by the sanitizer).
+
+### Performance Tip
+
+Hover and Mouse Leave fire every time the pointer crosses an element. Use a nanoflow for those actions, so they don't
+make a round trip to the server each time.
+
+### What If I Want To Style Those SVG Elements (e.g. On-Hover Behaviours)?
+
+Using the chosen SVG editor, you can (optionally) add a CSS class to those elements in case you want to add some hover
+styling later on. Then, in Mendix, you define the class(es). Example shown below:
+
+```css
+.mx-clickable:hover {
+    opacity: 0.7;
+}
+```
+
+The widget's root element has the class `widget-interactive-svg` plus any class you set in Studio Pro, so you can scope
+styles to one widget, for example `.mx-name-interactiveSVG1 svg { border-radius: 16px; }`.
+
+## Demo Project
 
 -   [Mendix app running on the cloud](https://clickablesvg-sandbox.mxapps.io/index.html?profile=Responsive)
--   [Mendix demo module (.mpk)](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/demo/InteractiveSVG.mpk)
+-   [Mendix demo module (.mpk)](https://github.com/StoneworxNL/interactive-svg-mendix/raw/main/demo/InteractiveSVG.mpk)
+
+The demo module shows toast messages with the BG Toast module (`BGToast`), so install that from the Mendix Marketplace
+before importing the demo module. Its page styling is included in the module's theme (`themesource/interactivesvg`);
+`demo/demo.scss` contains the same styles for reference.
 
 ### Demo
 
-![Demo](https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/images/demo5.gif)
+![Demo](https://raw.githubusercontent.com/StoneworxNL/interactive-svg-mendix/main/images/demo5.gif)
 
-## Issues, suggestions and feature requests
+## Demos
+
+Screenshots of a demo app that uses every feature of version 1.2.0. Each demo is one SVG, one non-persistent context
+object and a handful of microflows.
+
+The demo app, built with the Stoneworx theme:
+
+<img alt="Demo app with the Stoneworx topbar and side navigation" src="images/demo-app-shell.png" width="800px"/>
+<img alt="Demo app showing the Event lab page" src="images/demo-app-event-lab.png" width="800px"/>
+
+<img alt="Demo app landing page" src="images/demo-home.png" width="700px"/>
+
+**Event lab**: one tile per interaction type (click, double-click, hover, mouse leave, mouse down, mouse up,
+right-click, long press), each with an Aria label. One action on the class `lab-gem` fills **Triggered element** with
+the gem's `data-value`, and **Element states** light the fired tile, the picked gem and the counter LEDs.
+
+<img alt="Event lab demo" src="images/demo-event-lab.png" width="700px"/>
+
+**The lighthouse**: a five-chapter story driven by a single Integer. Element states such as `story-ship` gets
+`story-pos-3` while `$currentObject/Step = 3` move the ship, light the beam and open the door; the bell is a
+double-click and the door a long press.
+
+<img alt="Lighthouse story demo, chapter 3" src="images/demo-lighthouse.png" width="700px"/>
+<img alt="Lighthouse story demo, final chapter" src="images/demo-lighthouse-end.png" width="450px"/>
+
+**Boombox 3000**: a product page. Swatches and hover cards use one action per class plus Triggered element; mouse down
+drives the volume buttons, a long press guards the power switch, a double-click toggles bass boost and a right-click
+opens a Mendix menu instead of the browser's.
+
+<img alt="Boombox product demo" src="images/demo-boombox.png" width="700px"/>
+
+**Motion factory**: machines and parcels animated with `<animateMotion>` stay clickable while they move. Machine
+statuses from the app become `is-alarm`, `is-idle` and `is-selected` classes; double-click acknowledges the alarm and a
+long press on the lever stops the line.
+
+<img alt="Motion factory demo" src="images/demo-factory.png" width="700px"/>
+
+**Security**: the same kind of SVG with **Sanitizing** set to Standard and to Strict. Strict drops the `<style>` block
+but keeps shapes, IDs, classes and animations.
+
+<img alt="Standard versus Strict sanitizing" src="images/demo-security.png" width="700px"/>
+
+## Upgrading From 1.0.x
+
+1.1.0 and later sanitize the SVG before it is shown, so some SVGs render differently after the upgrade:
+
+-   `<script>`, event handler attributes, `javascript:` links and `<foreignObject>` content are removed;
+-   `<use>` that points to another file is removed (references inside the SVG still work);
+-   SMIL `<animate>` and `<set>` are removed, and `from`/`to` are removed from `<animateTransform>`; use `values` or
+    CSS;
+-   the SVG now sits inside a `div.widget-interactive-svg`, which can affect CSS that counted wrapper `div`s.
+
+See [CHANGELOG.md](CHANGELOG.md) for everything that changed.
+
+## Development
+
+Requires Mendix 11 or later (the widget is built with Pluggable Widgets Tools 11 and React 19) and Node.js 20 or later
+to build.
+
+-   `npm run build`: development build, copied into the Mendix app configured in `package.json` (`config.projectPath`);
+-   `npm test`: unit tests;
+-   `npm run lint`: formatting and lint checks;
+-   `npm run release`: runs lint and tests, then writes a minified package to `dist/<version>/`.
+
+## Issues, Suggestions And Feature Requests
 
 Let us know if you find any issues or if you have any feature requests.
