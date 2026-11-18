@@ -14,7 +14,7 @@
         Widget to show svg(s) in a Mendix Application. User(s) can interact with this svg and trigger Mendix actions.
     </description>
     <studioProCategory>Display</studioProCategory>
-    <helpUrl>https://github.com/StoneworxNL/interactive-svg-mendix#readme</helpUrl>
+    <helpUrl>https://github.com/StoneworxNL/interactive-svg-mendix/blob/main/README.md</helpUrl>
     <icon />
     <properties>
         <propertyGroup caption="General">
