@@ -1,18 +1,15 @@
-@import "custom-variables";
-@import url("https://fonts.googleapis.com/css2?family=Honk:MORF@15&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Honk:MORF,SHLN@38,94.9&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+// Copy of the demo module's theme (themesource/interactivesvg/web/main.scss in the demo app), for reference.
+@import "../../../theme/web/custom-variables";
+@import url("https://fonts.googleapis.com/css2?family=Honk:MORF,SHLN@0..45,0..100&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
-.mx-clickable {
-    cursor: pointer;
-    &:hover {
-        opacity: 0.7;
-    }
-}
-
+// Styling for the demo page (InteractiveSVG.Home_Web). It lives in the module theme so an exported module carries it.
 .wrapper-svg-int {
     background-color: #472edd;
+
     .bannertitle {
         padding: 0 40px 20px 40px;
+        text-align: center;
+
         span,
         h1,
         h2,
@@ -27,77 +24,66 @@
             font-variation-settings: "MORF" 15, "SHLN" 50;
             font-size: 80pt;
         }
-
         h2,
         h3 {
             font-family: "Montserrat", sans-serif;
             font-optical-sizing: auto;
-            // font-weight: ;
             font-style: normal;
         }
         h3 {
             color: #ffffb2;
         }
-        text-align: center;
     }
-    div {
-        padding: 0 50px;
-        svg {
-            border-radius: 50px;
-            box-shadow: #e0d2fa 0px 5px 15px;
-            margin-bottom: 40px;
+
+    .widget-interactive-svg svg {
+        border-radius: 50px;
+        box-shadow: #e0d2fa 0px 5px 15px;
+        margin-bottom: 40px;
+    }
+
+    .explanation {
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+
+        .row {
+            margin: 20px 0;
+        }
+        // Drop the column gutter so the explanation text lines up with the image
+        .row > [class*="col"] {
+            padding: 0;
+        }
+        h2 {
+            color: #ffffb2;
+        }
+        p,
+        span,
+        a {
+            font-size: medium;
+            color: #ffffff;
+        }
+        a {
+            color: #ffffb2;
         }
     }
-}
 
-.svg-wrapper {
-    transform: scale(0.2);
-    margin-left: -1150px;
-    margin-top: -750px;
-}
-
-.layout-atlas .region-topbar {
-    background-color: #472edd;
-    .btn-primary,
-    span,
-    .navbar-brand .widget-language-selector .language-arrow .arrow-image,
-    .navbar-brand .widget-language-selector .current-language-text,
-    .navbar-brand .widget-language-selector .language-arrow {
-        color: #ffffb2;
-        filter: none;
+    // Side insets are set per block: a catch-all `div { padding }` stacked up on every nested div
+    // and squeezed the image and text to zero width on phones
+    @media (min-width: $screen-md) {
+        > .row > [class*="col"],
+        .widget-interactive-svg,
+        .explanation .row {
+            padding: 0 100px;
+        }
     }
-}
 
-.layout-atlas .region-sidebar,
-.region-sidebar .mx-navigationtree,
-.region-sidebar .mx-navigationtree .navbar-inner > ul > li > a {
-    background-color: #f5f3f1;
-    box-shadow: none;
-    color: #030303;
-}
+    @media (max-width: $screen-sm-max) {
+        .bannertitle {
+            padding: 0 0 20px 0;
 
-body {
-    background-color: #f5f3f1;
-}
-
-.explanation {
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    // font-weight: ;
-    font-style: normal;
-    .row {
-        margin: 20px 0;
-    }
-    h2 {
-        color: #ffffb2;
-    }
-    p,
-    span,
-    a {
-        font-size: medium;
-        color: #ffffff;
-    }
-    a {
-        color: #ffffb2;
+            h1 {
+                font-size: 44pt;
+            }
+        }
     }
 }
